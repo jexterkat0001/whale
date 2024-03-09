@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -215,6 +216,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80833f49f0f2448eaa5023c77d7b7809, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ship: {fileID: 787439208}
+  maxZoomIn: 1
+  maxZoomOut: 20
 --- !u!1 &787439208
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,7 +244,7 @@ GameObject:
   - component: {fileID: 787439212}
   - component: {fileID: 787439211}
   m_Layer: 0
-  m_Name: boat
+  m_Name: ship
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -275,7 +291,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 70189edd32c354a10964bbc03d6628b5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -294,13 +310,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 787439208}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &787439211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,10 +330,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boatRigidbody: {fileID: 787439212}
-  accelerationStrength: 0.1
-  accelerationMax: 2
-  rotationSpeedStrength: 0.1
-  rotationSpeedMax: 2
+  acceleration: 3
+  maxSpeed: 10
+  rotationalAcceleration: 0.2
+  maxRotationSpeed: 0.5
+  deceleration: 0.995
 --- !u!50 &787439212
 Rigidbody2D:
   serializedVersion: 4
