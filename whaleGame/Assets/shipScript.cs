@@ -11,15 +11,17 @@ public class boatScript : MonoBehaviour
     [SerializeField]
     private float maxSpeed;
     private float speed;
+    [SerializeField]
+    private float deceleration;
 
     [SerializeField]
     private float rotationalAcceleration;
     [SerializeField]
     private float maxRotationSpeed;
     private float rotationSpeed = 0;
-
     [SerializeField]
-    private float deceleration;
+    private float rotationalDeceleration;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,7 +58,14 @@ public class boatScript : MonoBehaviour
         }
         if(!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
-            speed *= deceleration;
+            if(speed > 0)
+            {
+                speed -= deceleration * Time.deltaTime;
+            }
+            else if(speed < 0)
+            {
+                speed += deceleration * Time.deltaTime;
+            }
         }
 
 
@@ -78,7 +87,7 @@ public class boatScript : MonoBehaviour
         }
         if(!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
         {
-            rotationSpeed *= deceleration;
+            rotationSpeed *= rotationalDeceleration;
         }
         transform.Rotate(0f,0f,rotationSpeed);
 
