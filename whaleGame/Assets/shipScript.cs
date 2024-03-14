@@ -22,6 +22,8 @@ public class boatScript : MonoBehaviour
     [SerializeField]
     private float rotationalDeceleration;
 
+    private bool docked = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,38 +33,62 @@ public class boatScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(docked)
+        {
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                docked = false;
+            }
+        }
+        else
+        {
+            shipMovement();
+        }
+    
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        transform.position = collision.gameObject.transform.position;
+        transform.rotation = collision.gameObject.transform.rotation;
+        boatRigidbody.velocity = Vector2.zero;
+        docked = true;
+    }
+
+    private void shipMovement()
+    {
         speed = boatRigidbody.velocity.magnitude;
-        float velocityAngle = ((Vector2.SignedAngle(boatRigidbody.velocity, Vector2.right)*-1)+360)%360;
-        float currentAngle = (transform.eulerAngles.z + 360)%360;
-        if (Mathf.Abs(velocityAngle-currentAngle) > 90 && Mathf.Abs(velocityAngle - currentAngle) < 270)
+        float velocityAngle = ((Vector2.SignedAngle(boatRigidbody.velocity, Vector2.right) * -1) + 360) % 360;
+        float currentAngle = (transform.eulerAngles.z + 360) % 360;
+        if (Mathf.Abs(velocityAngle - currentAngle) > 90 && Mathf.Abs(velocityAngle - currentAngle) < 270)
         {
             speed *= -1;
         }
-        
+
 
         if (Input.GetKey(KeyCode.W))
         {
             speed += acceleration * Time.deltaTime;
-            if(speed > maxSpeed)
+            if (speed > maxSpeed)
             {
                 speed = maxSpeed;
             }
         }
-        if(Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S))
         {
             speed -= acceleration * Time.deltaTime;
-            if(speed < -maxSpeed)
+            if (speed < -maxSpeed)
             {
                 speed = -maxSpeed;
             }
         }
-        if(!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
+        if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
-            if(speed > 0)
+            if (speed > 0)
             {
                 speed -= deceleration * Time.deltaTime;
             }
-            else if(speed < 0)
+            else if (speed < 0)
             {
                 speed += deceleration * Time.deltaTime;
             }
@@ -72,27 +98,26 @@ public class boatScript : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             rotationSpeed += rotationalAcceleration * Time.deltaTime;
-            if(rotationSpeed > maxRotationSpeed)
+            if (rotationSpeed > maxRotationSpeed)
             {
                 rotationSpeed = maxRotationSpeed;
             }
         }
-        if(Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
         {
             rotationSpeed -= rotationalAcceleration * Time.deltaTime;
-            if(rotationSpeed < -maxRotationSpeed)
+            if (rotationSpeed < -maxRotationSpeed)
             {
                 rotationSpeed = -maxRotationSpeed;
             }
         }
-        if(!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
+        if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
         {
             rotationSpeed *= rotationalDeceleration;
         }
-        transform.Rotate(0f,0f,rotationSpeed);
+        transform.Rotate(0f, 0f, rotationSpeed);
 
-        boatRigidbody.velocity = new Vector2(speed * Mathf.Cos(currentAngle*Mathf.PI/180), speed * Mathf.Sin(currentAngle*Mathf.PI/180));
-        
-    
+        boatRigidbody.velocity = new Vector2(speed * Mathf.Cos(currentAngle * Mathf.PI / 180), speed * Mathf.Sin(currentAngle * Mathf.PI / 180));
+
     }
 }

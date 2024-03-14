@@ -20,7 +20,7 @@ public class islandGeneratorScript : MonoBehaviour
 
 
 
-    List<Vector2> islandLocationList = new List<Vector2>();
+    public List<Vector2> islandLocationList = new List<Vector2>();
 
 
     // Start is called before the first frame update
@@ -85,7 +85,7 @@ public class islandGeneratorScript : MonoBehaviour
 
     private void spawnIsland(Vector2 location)
     {
-        Instantiate(island, new Vector3(location.x, location.y, 0), Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));
+        Instantiate(island, new Vector3(location.x, location.y, 0), Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)), this.transform);
     }
 
 
