@@ -22,7 +22,7 @@ public class boatScript : MonoBehaviour
     [SerializeField]
     private float rotationalDeceleration;
 
-    private bool docked = false;
+    private bool docked = true;
 
     // Start is called before the first frame update
     void Start()
@@ -49,8 +49,8 @@ public class boatScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        transform.position = collision.gameObject.transform.position;
-        transform.rotation = collision.gameObject.transform.rotation;
+        transform.position = collision.gameObject.transform.parent.position;
+        transform.rotation = collision.gameObject.transform.parent.rotation;
         boatRigidbody.velocity = Vector2.zero;
         docked = true;
     }

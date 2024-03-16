@@ -70,7 +70,6 @@ public class islandGeneratorScript : MonoBehaviour
         {
             if(pythagorean(x, islandLocationList[i].x, y, islandLocationList[i].y) < distance)
             {
-                Debug.Log("A");
                 return false;
             }
         }
@@ -87,10 +86,4 @@ public class islandGeneratorScript : MonoBehaviour
     {
         Instantiate(island, new Vector3(location.x, location.y, 0), Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)), this.transform);
     }
-
-
-
-
-
-
 }
