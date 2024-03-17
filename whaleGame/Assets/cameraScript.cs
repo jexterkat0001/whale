@@ -7,6 +7,8 @@ public class cameraScript : MonoBehaviour
     public GameObject ship;
 
     [SerializeField]
+    private float scrollAmount;
+    [SerializeField]
     private float maxZoomIn;
     [SerializeField]
     private float maxZoomOut;
@@ -22,7 +24,8 @@ public class cameraScript : MonoBehaviour
     {
         transform.position = new Vector3(ship.transform.position.x, ship.transform.position.y, -10);
 
-        Camera.main.orthographicSize -= Input.GetAxis("Mouse ScrollWheel");
+        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+        Camera.main.orthographicSize *= Mathf.Pow(2,(-scrollInput * scrollAmount));
         if(Camera.main.orthographicSize < maxZoomIn)
         {
             Camera.main.orthographicSize = maxZoomIn;

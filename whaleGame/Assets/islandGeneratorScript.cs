@@ -18,8 +18,6 @@ public class islandGeneratorScript : MonoBehaviour
     [SerializeField]
     private float distance;
 
-
-
     public List<Vector2> islandLocationList = new List<Vector2>();
 
 

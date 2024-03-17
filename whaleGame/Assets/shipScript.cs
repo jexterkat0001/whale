@@ -5,6 +5,7 @@ using UnityEngine;
 public class boatScript : MonoBehaviour
 {
     public Rigidbody2D boatRigidbody;
+    public logicTargetScript logicTargetScript;
 
     [SerializeField]
     private float acceleration;
@@ -22,12 +23,22 @@ public class boatScript : MonoBehaviour
     [SerializeField]
     private float rotationalDeceleration;
 
+    [SerializeField]
+    private bool testMode;
+
     private bool docked = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        if(testMode)
+        {
+            acceleration = 5f;
+            maxSpeed = 50f;
+            deceleration = 10f;
+            rotationalAcceleration = 0.5f;
+            rotationalDeceleration = 0.9f;
+        }
     }
 
     // Update is called once per frame
@@ -52,7 +63,9 @@ public class boatScript : MonoBehaviour
         transform.position = collision.gameObject.transform.parent.position;
         transform.rotation = collision.gameObject.transform.parent.rotation;
         boatRigidbody.velocity = Vector2.zero;
+        rotationSpeed = 0;
         docked = true;
+        logicTargetScript.attemptGetNewTarget();
     }
 
     private void shipMovement()
@@ -64,7 +77,6 @@ public class boatScript : MonoBehaviour
         {
             speed *= -1;
         }
-
 
         if (Input.GetKey(KeyCode.W))
         {
@@ -94,7 +106,6 @@ public class boatScript : MonoBehaviour
             }
         }
 
-
         if (Input.GetKey(KeyCode.A))
         {
             rotationSpeed += rotationalAcceleration * Time.deltaTime;
@@ -118,6 +129,5 @@ public class boatScript : MonoBehaviour
         transform.Rotate(0f, 0f, rotationSpeed);
 
         boatRigidbody.velocity = new Vector2(speed * Mathf.Cos(currentAngle * Mathf.PI / 180), speed * Mathf.Sin(currentAngle * Mathf.PI / 180));
-
     }
 }

@@ -11,7 +11,8 @@ public class islandScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        islandNumber = Random.Range(0, 9);
+        islandNumber = Random.Range(0, 10);
+        load();
     }
 
     // Update is called once per frame
