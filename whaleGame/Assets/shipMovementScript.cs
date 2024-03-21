@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class boatScript : MonoBehaviour
+public class shipMovementScript : MonoBehaviour
 {
     public Rigidbody2D boatRigidbody;
-    public logicTargetScript logicTargetScript;
 
     [SerializeField]
     private float acceleration;
@@ -19,14 +18,14 @@ public class boatScript : MonoBehaviour
     private float rotationalAcceleration;
     [SerializeField]
     private float maxRotationSpeed;
-    private float rotationSpeed = 0;
+    public float rotationSpeed = 0;
     [SerializeField]
     private float rotationalDeceleration;
 
     [SerializeField]
     private bool testMode;
 
-    private bool docked = true;
+    public bool docked = true;
 
     // Start is called before the first frame update
     void Start()
@@ -44,28 +43,10 @@ public class boatScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(docked)
-        {
-            if(Input.GetKeyDown(KeyCode.E))
-            {
-                docked = false;
-            }
-        }
-        else
+        if(!docked)
         {
             shipMovement();
         }
-    
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        transform.position = collision.gameObject.transform.parent.position;
-        transform.rotation = collision.gameObject.transform.parent.rotation;
-        boatRigidbody.velocity = Vector2.zero;
-        rotationSpeed = 0;
-        docked = true;
-        logicTargetScript.attemptGetNewTarget();
     }
 
     private void shipMovement()
