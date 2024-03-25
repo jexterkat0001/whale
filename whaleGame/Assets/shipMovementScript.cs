@@ -80,10 +80,18 @@ public class shipMovementScript : MonoBehaviour
             if (speed > 0)
             {
                 speed -= deceleration * Time.deltaTime;
+                if(speed < 0)
+                {
+                    speed = 0;
+                }
             }
             else if (speed < 0)
             {
                 speed += deceleration * Time.deltaTime;
+                if(speed > 0)
+                {
+                    speed = 0;
+                }
             }
         }
 
@@ -103,9 +111,13 @@ public class shipMovementScript : MonoBehaviour
                 rotationSpeed = -maxRotationSpeed;
             }
         }
-        if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
+        if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && rotationSpeed != 0f)
         {
             rotationSpeed *= rotationalDeceleration;
+            if(Mathf.Abs(rotationSpeed) < 0.001)
+            {
+                rotationSpeed = 0f;
+            }
         }
         transform.Rotate(0f, 0f, rotationSpeed);
 
