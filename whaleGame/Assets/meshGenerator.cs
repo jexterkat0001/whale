@@ -5,6 +5,7 @@ using UnityEngine;
 public class meshGenerator : MonoBehaviour
 {
     public GameObject whaleTilePrefab;
+    public Collider2D whaleDetector;
 
     private int width = 100;
     private int height = 100;
@@ -36,6 +37,8 @@ public class meshGenerator : MonoBehaviour
         whaleSystemOuter.GetComponent<MeshRenderer>().material.color = color1;
         var whaleSystemOuterShape = whaleSystemOuter.GetComponent<ParticleSystem>().shape;
         whaleSystemOuterShape.mesh = outerMesh;
+        var whaleSystemOuterTrigger = whaleSystemOuter.GetComponent<ParticleSystem>().trigger;
+        whaleSystemOuterTrigger.AddCollider(whaleDetector);
         /*
         Mesh innerMesh = createMesh(xOffset,yOffset,threshold2,1f);
         Transform whaleSystemInner = whaleTile.transform.GetChild(1);

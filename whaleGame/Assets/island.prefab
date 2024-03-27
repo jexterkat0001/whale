@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7387939606594615663}
   - component: {fileID: 2856250707188967553}
   - component: {fileID: 1149772776111889434}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: port
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 9061841677081956272}
   - component: {fileID: 4581274518639330629}
   - component: {fileID: 916174956126218006}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: island
   m_TagString: Untagged
   m_Icon: {fileID: 0}
