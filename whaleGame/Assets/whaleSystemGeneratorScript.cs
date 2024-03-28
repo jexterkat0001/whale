@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class meshGenerator : MonoBehaviour
+public class whaleSystemGeneratorScript : MonoBehaviour
 {
-    public GameObject whaleTilePrefab;
+    public GameObject whaleSystem;
     public Collider2D whaleDetector;
 
-    private int width = 100;
-    private int height = 100;
+    private int width = 200;
+    private int height = 200;
     [SerializeField]
     private float noiseStretch;
     [SerializeField]
@@ -28,7 +28,7 @@ public class meshGenerator : MonoBehaviour
 
     public void createWhaleSystem(float xOffset, float yOffset)
     {
-        Instantiate(whaleTilePrefab, transform.position, transform.rotation, this.transform);
+        Instantiate(whaleSystem, new Vector3(transform.position.x + xOffset, transform.position.y + yOffset, transform.position.z), transform.rotation, this.transform);
         Transform whaleTile = transform.GetChild(transform.childCount-1);
 
         Mesh outerMesh = createMesh(xOffset,yOffset,threshold1,threshold2);
@@ -39,13 +39,15 @@ public class meshGenerator : MonoBehaviour
         whaleSystemOuterShape.mesh = outerMesh;
         var whaleSystemOuterTrigger = whaleSystemOuter.GetComponent<ParticleSystem>().trigger;
         whaleSystemOuterTrigger.AddCollider(whaleDetector);
-        /*
+        
         Mesh innerMesh = createMesh(xOffset,yOffset,threshold2,1f);
         Transform whaleSystemInner = whaleTile.transform.GetChild(1);
         whaleSystemInner.GetComponent<MeshFilter>().mesh = innerMesh;
         whaleSystemInner.GetComponent<MeshRenderer>().material.color = color2;
         var whaleSystemInnerShape = whaleSystemInner.GetComponent<ParticleSystem>().shape;
-        whaleSystemInnerShape.mesh = innerMesh;*/
+        whaleSystemInnerShape.mesh = innerMesh;
+        var whaleSystemInnerTrigger = whaleSystemInner.GetComponent<ParticleSystem>().trigger;
+        whaleSystemInnerTrigger.AddCollider(whaleDetector);
     }
 
     Mesh createMesh(float xOffset, float yOffset, float lowerThreshold, float upperThreshold)
@@ -57,7 +59,7 @@ public class meshGenerator : MonoBehaviour
         {
             for(int x = 0; x <= width; x++)
             {
-                vertices[i] = new Vector3(x + xOffset,y + yOffset,0);
+                vertices[i] = new Vector3(x,y,0);
                 i++;
             }
         }
@@ -66,7 +68,7 @@ public class meshGenerator : MonoBehaviour
         {
             for(int x = 0; x < width; x++, i+=6)
             {
-                float value = Mathf.PerlinNoise(vertices[vertex].x * noiseStretch * Mathf.PI + 1000000, vertices[vertex].y * noiseStretch * Mathf.PI + 1000000);
+                float value = Mathf.PerlinNoise((vertices[vertex].x+xOffset) * noiseStretch * Mathf.PI + 1000000, (vertices[vertex].y+yOffset) * noiseStretch * Mathf.PI + 1000000);
                 if(value > lowerThreshold && value < upperThreshold)
                 {
                     triangles.Add(vertex);

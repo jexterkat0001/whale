@@ -7,6 +7,7 @@ TagManager:
   - whaleSystemOuter
   - whaleSystemInner
   - Ship
+  - whalePing
   layers:
   - Default
   - TransparentFX

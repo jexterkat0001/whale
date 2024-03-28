@@ -38,7 +38,7 @@ public class arrowScript : MonoBehaviour
             arrowVector *= arrowPositionConstant * Camera.main.orthographicSize;
 
             transform.localScale = Vector3.one * scaleConstant * Camera.main.orthographicSize;
-            transform.localPosition = new Vector3(arrowVector.x, arrowVector.y, 8);
+            transform.localPosition = new Vector3(arrowVector.x, arrowVector.y, 9);
 
             float arrowAngle = ((Vector2.SignedAngle(arrowVector, Vector2.right) * -1) + 360) % 360;
             transform.rotation = Quaternion.Euler(0, 0, arrowAngle);
