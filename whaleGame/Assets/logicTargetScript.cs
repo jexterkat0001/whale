@@ -7,12 +7,13 @@ public class logicTargetScript : MonoBehaviour
     public islandGeneratorScript islandGeneratorScript;
     public GameObject ship;
     public arrowScript arrowScript;
+    public menuScript menuScript;
 
     [SerializeField]
     private int poolSize;
 
     private List<Vector2> islandLocationList;
-    private Vector2 target = Vector2.zero;
+    private Vector2 target;
 
     // Start is called before the first frame update
     void Start()
@@ -25,23 +26,20 @@ public class logicTargetScript : MonoBehaviour
     { 
         if(e)
         {
-            attemptGetNewTarget();
+            getNewTarget();
             e = false;
         }
     }
 
-    public void attemptGetNewTarget()
+    public void getNewTarget()
     {
-        Vector2 shipLocation = new Vector2(ship.transform.position.x, ship.transform.position.y);
-        if(shipLocation != target)
-        {
-            return;
-        }
-
         islandLocationList = islandGeneratorScript.islandLocationList;
         List<Vector2> possibleTargetList = getClosestPositions(islandLocationList, shipLocation);
         target = possibleTargetList[Random.Range(0, poolSize)];
         arrowScript.target = target;
+
+        menuScript.distance = pythagorean(shipLocation, target);
+        menuScript.value = 1f;
     }
 
     private List<Vector2> getClosestPositions(List<Vector2> positionList, Vector2 centerPosition)

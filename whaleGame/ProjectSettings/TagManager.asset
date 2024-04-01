@@ -8,6 +8,7 @@ TagManager:
   - whaleSystemInner
   - Ship
   - whalePing
+  - gameUI
   layers:
   - Default
   - TransparentFX

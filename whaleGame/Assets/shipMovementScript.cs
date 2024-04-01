@@ -5,6 +5,8 @@ using UnityEngine;
 public class shipMovementScript : MonoBehaviour
 {
     public Rigidbody2D boatRigidbody;
+    public logicTargetScript logicTargetScript;
+    private Collider2D dockTrigger;
 
     [SerializeField]
     private float acceleration;
@@ -18,7 +20,7 @@ public class shipMovementScript : MonoBehaviour
     private float rotationalAcceleration;
     [SerializeField]
     private float maxRotationSpeed;
-    public float rotationSpeed = 0;
+    private float rotationSpeed = 0;
     [SerializeField]
     private float rotationalDeceleration;
 
@@ -26,6 +28,7 @@ public class shipMovementScript : MonoBehaviour
     private bool testMode;
 
     public bool docked = true;
+    public bool canDock = false;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +50,37 @@ public class shipMovementScript : MonoBehaviour
         {
             shipMovement();
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        dockTrigger = collision;
+        if (Time.time > 1)
+        {
+            canDock = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        canDock = false;
+    }
+
+    public void dock()
+    {
+        transform.position = dockTrigger.gameObject.transform.position;
+        transform.rotation = dockTrigger.gameObject.transform.rotation;
+        boatRigidbody.velocity = Vector2.zero;
+        rotationSpeed = 0;
+        docked = true;
+        canDock = false;
+        Vector2 shipLocation = new Vector2(transform.position.x, transform.position.y);
+    }
+
+    public void undock()
+    {
+        docked = false;
+        canDock = true;
     }
 
     private void shipMovement()

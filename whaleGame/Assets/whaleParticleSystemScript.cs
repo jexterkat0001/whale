@@ -9,6 +9,7 @@ public class whaleParticleSystemScript : MonoBehaviour
 
     public GameObject ship;
     public ParticleSystem whalePing;
+    public menuScript menuScript;
 
     float xOffset;
     float yOffset;
@@ -17,6 +18,7 @@ public class whaleParticleSystemScript : MonoBehaviour
     {
         ship = GameObject.FindWithTag("Ship");
         whalePing = GameObject.FindWithTag("whalePing").GetComponent<ParticleSystem>();
+        menuScript = GameObject.FindWithTag("gameUI").GetComponent<menuScript>();
 
         xOffset = transform.parent.position.x;
         yOffset = transform.parent.position.y;
@@ -29,8 +31,8 @@ public class whaleParticleSystemScript : MonoBehaviour
         {
             if(collisionEvents[i].colliderComponent.gameObject.layer == 3)
             {
-                Debug.Log("ship collision");
-            }
+                menuScript.whalesHit++;
+            }   
         }
     }
 
@@ -43,6 +45,8 @@ public class whaleParticleSystemScript : MonoBehaviour
             if(particle.remainingLifetime < 19f && particle.startColor.a != 255)
             {
                 particle.startColor = new Color32(255,255,255,255);
+                particle.remainingLifetime = 40f;
+
                 whalePing.transform.position = new Vector3(particle.position.x+xOffset, particle.position.y+yOffset, particle.position.z - 1);
                 var whalePingMain = whalePing.main;
                 whalePingMain.startSpeed = particle.velocity.magnitude;
