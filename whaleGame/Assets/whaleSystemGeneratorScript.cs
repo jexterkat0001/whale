@@ -7,8 +7,8 @@ public class whaleSystemGeneratorScript : MonoBehaviour
     public GameObject whaleSystem;
     public Collider2D whaleDetector;
 
-    private int width = 200;
-    private int height = 200;
+    private int width = 100;
+    private int height = 100;
     [SerializeField]
     private float noiseStretch;
     [SerializeField]
@@ -31,26 +31,39 @@ public class whaleSystemGeneratorScript : MonoBehaviour
         Instantiate(whaleSystem, new Vector3(transform.position.x + xOffset, transform.position.y + yOffset, transform.position.z), transform.rotation, this.transform);
         Transform whaleTile = transform.GetChild(transform.childCount-1);
 
-        Mesh outerMesh = createMesh(xOffset,yOffset,threshold1,threshold2);
+
+
+        Mesh[] outerMeshes = createMeshes(xOffset, yOffset, threshold1, threshold2);
+
+        Mesh outerMesh = outerMeshes[0];
         Transform whaleSystemOuter = whaleTile.transform.GetChild(0);
-        whaleSystemOuter.GetComponent<MeshFilter>().mesh = outerMesh;
-        whaleSystemOuter.GetComponent<MeshRenderer>().material.color = color1;
         var whaleSystemOuterShape = whaleSystemOuter.GetComponent<ParticleSystem>().shape;
         whaleSystemOuterShape.mesh = outerMesh;
         var whaleSystemOuterTrigger = whaleSystemOuter.GetComponent<ParticleSystem>().trigger;
         whaleSystemOuterTrigger.AddCollider(whaleDetector);
-        
-        Mesh innerMesh = createMesh(xOffset,yOffset,threshold2,1f);
+
+        Mesh outerOverlayMesh = outerMeshes[1];
+        whaleSystemOuter.GetComponent<MeshFilter>().mesh = outerOverlayMesh;
+        whaleSystemOuter.GetComponent<MeshRenderer>().material.color = color1;
+
+
+
+        Mesh[] innerMeshes = createMeshes(xOffset, yOffset, threshold2, 1f);
+
+        Mesh innerMesh = innerMeshes[0];
         Transform whaleSystemInner = whaleTile.transform.GetChild(1);
-        whaleSystemInner.GetComponent<MeshFilter>().mesh = innerMesh;
-        whaleSystemInner.GetComponent<MeshRenderer>().material.color = color2;
         var whaleSystemInnerShape = whaleSystemInner.GetComponent<ParticleSystem>().shape;
         whaleSystemInnerShape.mesh = innerMesh;
         var whaleSystemInnerTrigger = whaleSystemInner.GetComponent<ParticleSystem>().trigger;
         whaleSystemInnerTrigger.AddCollider(whaleDetector);
+
+        Mesh innerOverlayMesh = innerMeshes[1];
+        whaleSystemInner.GetComponent<MeshFilter>().mesh = innerOverlayMesh;
+        whaleSystemInner.GetComponent<MeshRenderer>().material.color = color2;
+        
     }
 
-    Mesh createMesh(float xOffset, float yOffset, float lowerThreshold, float upperThreshold)
+    Mesh[] createMeshes(float xOffset, float yOffset, float lowerThreshold, float upperThreshold)
     {
         Vector3[] vertices = new Vector3[(width+1) * (height+1)];
         List<int> triangles = new List<int>();
@@ -91,7 +104,17 @@ public class whaleSystemGeneratorScript : MonoBehaviour
             trianglesArray[i] = triangles[i];
         }
         mesh.triangles = trianglesArray;
-        return mesh;
+
+        Mesh overlayMesh = new Mesh();
+        Vector3[] overlayVertices = new Vector3[(width + 1) * (height + 1)];
+        for (int i = 0; i < overlayVertices.Length; i++)
+        {
+            overlayVertices[i] = new Vector3(vertices[i].x, vertices[i].y, -0.5f);
+        }
+        overlayMesh.vertices = overlayVertices;
+        overlayMesh.triangles = trianglesArray;
+
+        return new Mesh[] { mesh, overlayMesh };
     }
     
 }

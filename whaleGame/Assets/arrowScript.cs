@@ -26,7 +26,7 @@ public class arrowScript : MonoBehaviour
         if(targetIsInFrame())
         {
             spriteRenderer.sprite = sprites[1];
-            transform.position = new Vector3(target.x, target.y, -2);
+            transform.position = new Vector3(target.x, target.y, -9);
             transform.localScale = Vector3.one * scaleConstant * Camera.main.orthographicSize;
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
@@ -38,7 +38,7 @@ public class arrowScript : MonoBehaviour
             arrowVector *= arrowPositionConstant * Camera.main.orthographicSize;
 
             transform.localScale = Vector3.one * scaleConstant * Camera.main.orthographicSize;
-            transform.localPosition = new Vector3(arrowVector.x, arrowVector.y, 9);
+            transform.localPosition = new Vector3(arrowVector.x, arrowVector.y, 1);
 
             float arrowAngle = ((Vector2.SignedAngle(arrowVector, Vector2.right) * -1) + 360) % 360;
             transform.rotation = Quaternion.Euler(0, 0, arrowAngle);

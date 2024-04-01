@@ -8,7 +8,7 @@ public class shipLogicScript : MonoBehaviour
     public Rigidbody2D boatRigidbody;
     public logicTargetScript logicTargetScript;
     public shipMovementScript shipMovementScript;
-    public TextMeshProUGUI dockText;
+    //public TextMeshProUGUI dockText;
 
     private Collider2D dockTrigger;
     private bool canDock = false;
@@ -24,7 +24,7 @@ public class shipLogicScript : MonoBehaviour
     {
         if(canDock)
         {
-            dockText.text = "Press E to enter port";
+            //dockText.text = "Press E to enter port";
             if(Input.GetKeyDown(KeyCode.E))
             {
                 transform.position = dockTrigger.gameObject.transform.position;
@@ -38,7 +38,7 @@ public class shipLogicScript : MonoBehaviour
         }
         else if(shipMovementScript.docked)
         {
-            dockText.text = "Press E to leave port";
+            //dockText.text = "Press E to leave port";
             if(Input.GetKeyDown(KeyCode.E))
             {
                 shipMovementScript.docked = false;
@@ -59,6 +59,6 @@ public class shipLogicScript : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         canDock = false;
-        dockText.text = "";
+        //dockText.text = "";
     }
 }
