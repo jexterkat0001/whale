@@ -74,7 +74,6 @@ public class shipMovementScript : MonoBehaviour
         rotationSpeed = 0;
         docked = true;
         canDock = false;
-        Vector2 shipLocation = new Vector2(transform.position.x, transform.position.y);
     }
 
     public void undock()

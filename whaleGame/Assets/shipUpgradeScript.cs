@@ -10,7 +10,7 @@ public class shipUpgradeScript : MonoBehaviour
     
     Vector2[] sizes = {new Vector2(1f,0.1f), new Vector2(1.4f,0.2f), new Vector2(2f,0.25f), new Vector2(2.8f,0.35f)};
 
-    int ship = 0;
+    public int ship = 0;
 
     [ContextMenu("upgrade ship")]
     public void upgradeShip()

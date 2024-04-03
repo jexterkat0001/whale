@@ -655,7 +655,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boatRigidbody: {fileID: 787439212}
-  logicTargetScript: {fileID: 0}
+  logicTargetScript: {fileID: 1606143406}
   acceleration: 0.5
   maxSpeed: 2
   deceleration: 0.5
@@ -6550,7 +6550,7 @@ MonoBehaviour:
   islandGeneratorScript: {fileID: 1778335532}
   ship: {fileID: 787439208}
   arrowScript: {fileID: 749919150}
-  menuScript: {fileID: 0}
+  menuScript: {fileID: 1152108096}
   poolSize: 10
 --- !u!4 &1606143407
 Transform:
@@ -6609,11 +6609,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   island: {fileID: 4890338532664918540, guid: 84f2e4cf8e2284cdd9baa5058081241d, type: 3}
-  startPoint: 80
-  endPoint: 2000
+  thresholds: 50000000c800000090010000bc020000dc050000
   spawnChance: 5
   spawnChanceIncrease: 0.01
-  distance: 100
+  deletionDistance: 100
   islandLocationList: []
 --- !u!4 &1778335533
 Transform:

@@ -3,22 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+
+
 public class islandGeneratorScript : MonoBehaviour
 {
     public GameObject island;
 
+
     [SerializeField]
-    private int startPoint;
-    [SerializeField]
-    private int endPoint;
+    private int[] thresholds;
     [SerializeField]
     private float spawnChance;
     [SerializeField]
     private float spawnChanceIncrease;
     [SerializeField]
-    private float distance;
+    private float deletionDistance;
+
 
     public List<Vector2> islandLocationList = new List<Vector2>();
+    public List<Vector2>[] islandRings = {new List<Vector2>(), new List<Vector2>(), new List<Vector2>(), new List<Vector2>()};
 
 
     // Start is called before the first frame update
@@ -26,59 +29,74 @@ public class islandGeneratorScript : MonoBehaviour
     {
         generateIslandLocations();
 
-        for(int i = 0; i < islandLocationList.Count; i++)
+        for (int i = 0; i < islandLocationList.Count; i++)
         {
             spawnIsland(islandLocationList[i]);
         }
+
+
+        Debug.Log(islandRings[0].Count);
+        Debug.Log(islandRings[1].Count);
+        Debug.Log(islandRings[2].Count);
+        Debug.Log(islandRings[3].Count);
     }
+
+
 
 
     // Update is called once per frame
     void Update()
     {
 
+
     }
 
 
     private void generateIslandLocations()
     {
-        for (int i = startPoint; i < endPoint; i++)
+        for (int ring = 0; ring < 4; ring++)
         {
-            if (Random.Range(0f, 100f) < spawnChance + i * spawnChanceIncrease)
+            for (int i = thresholds[ring]; i < thresholds[ring + 1]; i++)
             {
-                float angle = Random.Range(0f, 2 * Mathf.PI);
-
-                Vector2 islandPosition = new Vector2(i * Mathf.Cos(angle), i * Mathf.Sin(angle));
-
-                if(checkIslandOverlaps(islandPosition))
+                if (Random.Range(0f, 100f) < spawnChance + i * spawnChanceIncrease)
                 {
-                    islandLocationList.Add(islandPosition);
-                }
+                    float angle = Random.Range(0f, 2 * Mathf.PI);
 
+
+                    Vector2 islandPosition = new Vector2(i * Mathf.Cos(angle), i * Mathf.Sin(angle));
+
+
+                    if (checkIslandOverlaps(islandPosition))
+                    {
+                        islandLocationList.Add(islandPosition);
+                        islandRings[ring].Add(islandPosition);
+                    }
+                }
             }
         }
     }
 
+
     private bool checkIslandOverlaps(Vector2 islandPosition)
     {
-        float x = islandPosition.x;
-        float y = islandPosition.y;
-
         for (int i = 0; i < islandLocationList.Count; i++)
         {
-            if(pythagorean(x, islandLocationList[i].x, y, islandLocationList[i].y) < distance)
+            if (pythagorean(islandPosition, islandLocationList[i]) < deletionDistance)
             {
                 return false;
             }
         }
 
+
         return true;
     }
 
-    private float pythagorean(float x1, float x2, float y1, float y2)
+
+    private float pythagorean(Vector2 position1, Vector2 position2)
     {
-        return (Mathf.Sqrt(Mathf.Pow((x1 - x2), 2) + Mathf.Pow((y1 - y2), 2)));
+        return (Mathf.Sqrt(Mathf.Pow((position1.x - position2.x), 2) + Mathf.Pow((position1.y - position2.y), 2)));
     }
+
 
     private void spawnIsland(Vector2 location)
     {
