@@ -33,12 +33,13 @@ public class logicTargetScript : MonoBehaviour
         }
     }
 
-
+    [ContextMenu("getNewTarget")]
     public void getNewTarget()
     {
         Vector2 shipLocation = new Vector2(ship.transform.position.x, ship.transform.position.y);
         int shipUpgrade = ship.GetComponent<shipUpgradeScript>().ship;
         List<Vector2> possibleTargetList = getClosestPositions(islandGeneratorScript.islandRings[shipUpgrade], shipLocation);
+        previousTarget = target;
         target = possibleTargetList[Random.Range(0, poolSize)];
         arrowScript.target = target;
 

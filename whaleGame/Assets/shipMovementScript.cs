@@ -6,6 +6,8 @@ public class shipMovementScript : MonoBehaviour
 {
     public Rigidbody2D boatRigidbody;
     public logicTargetScript logicTargetScript;
+    public GameObject dockButton;
+
     private Collider2D dockTrigger;
 
     [SerializeField]
@@ -15,7 +17,6 @@ public class shipMovementScript : MonoBehaviour
     private float speed;
     [SerializeField]
     private float deceleration;
-
     [SerializeField]
     private float rotationalAcceleration;
     [SerializeField]
@@ -23,12 +24,11 @@ public class shipMovementScript : MonoBehaviour
     private float rotationSpeed = 0;
     [SerializeField]
     private float rotationalDeceleration;
-
     [SerializeField]
     private bool testMode;
 
-    public bool docked = true;
-    public bool canDock = false;
+    public bool docked;
+    public bool canDock;
 
     // Start is called before the first frame update
     void Start()
@@ -55,15 +55,17 @@ public class shipMovementScript : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         dockTrigger = collision;
-        if (Time.time > 1)
+        if (Time.time > 0.5f)
         {
             canDock = true;
+            dockButton.SetActive(true);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         canDock = false;
+        dockButton.SetActive(false);
     }
 
     public void dock()

@@ -6,7 +6,10 @@ using TMPro;
 public class menuScript : MonoBehaviour
 {
 	public TextMeshProUGUI moneyText;
+    public TextMeshProUGUI dockButtonText;
     public shipMovementScript shipMovementScript;
+    public GameObject openMenuButtonGameObject;
+    public GameObject islandMenu;
 
 	private float money = 0;
 
@@ -14,16 +17,14 @@ public class menuScript : MonoBehaviour
     public float value;
     public int whalesHit = 0;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
-        
+        islandMenu.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void delivery()
     {
-        
+
     }
 
     public void dockButton()
@@ -31,15 +32,30 @@ public class menuScript : MonoBehaviour
         if(shipMovementScript.canDock)
         {
             shipMovementScript.dock();
+            islandMenu.SetActive(true);
+            openMenuButtonGameObject.SetActive(true);
+            dockButtonText.text = "Leave Port";
         }
         else if(shipMovementScript.docked)
         {
             shipMovementScript.undock();
+            openMenuButtonGameObject.SetActive(false);
+            dockButtonText.text = "Enter Port";
         }
     }
 
-    //public void delivery()
-    //{
+    public void openMenuButton()
+    {
+        islandMenu.SetActive(true);
+    }
 
-    //}
+    public void menuBackButton()
+    {
+        islandMenu.SetActive(false);
+    }
+
+
+
+    
+
 }
