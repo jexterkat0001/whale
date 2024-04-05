@@ -5,10 +5,12 @@ using TMPro;
 
 public class menuScript : MonoBehaviour
 {
+    public Misc misc;
+
 	public TextMeshProUGUI moneyText;
     public TextMeshProUGUI dockButtonText;
     public shipMovementScript shipMovementScript;
-    public GameObject openMenuButtonGameObject;
+    public GameObject menuButton;
     public GameObject islandMenu;
 
 	private float money = 0;
@@ -19,39 +21,50 @@ public class menuScript : MonoBehaviour
 
     public void Start()
     {
-        islandMenu.SetActive(false);
+        if(misc.testMode)
+        {
+            islandMenu.SetActive(false);
+            menuButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Open Menu";
+        }
     }
 
     public void delivery()
     {
-
+        moneyText.text = money + "$";
     }
 
-    public void dockButton()
+    public void dockButtonPressed()
     {
         if(shipMovementScript.canDock)
         {
             shipMovementScript.dock();
             islandMenu.SetActive(true);
-            openMenuButtonGameObject.SetActive(true);
+            menuButton.SetActive(true);
             dockButtonText.text = "Leave Port";
         }
         else if(shipMovementScript.docked)
         {
             shipMovementScript.undock();
-            openMenuButtonGameObject.SetActive(false);
+            islandMenu.SetActive(false);
+            menuButton.SetActive(false);
             dockButtonText.text = "Enter Port";
+
         }
     }
 
-    public void openMenuButton()
+    public void menuButtonPressed()
     {
-        islandMenu.SetActive(true);
-    }
+        if(islandMenu.activeInHierarchy)
+        {
+            islandMenu.SetActive(false);
+            menuButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Open Menu";
 
-    public void menuBackButton()
-    {
-        islandMenu.SetActive(false);
+        }
+        else
+        {
+            islandMenu.SetActive(true);
+            menuButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Close Menu";
+        }
     }
 
 

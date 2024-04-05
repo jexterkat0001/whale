@@ -9,6 +9,7 @@ public class logicTargetScript : MonoBehaviour
     public GameObject ship;
     public arrowScript arrowScript;
     public menuScript menuScript;
+    public Misc misc;
 
     private List<Vector2> islandLocationList;
     private Vector2 target;
@@ -43,7 +44,7 @@ public class logicTargetScript : MonoBehaviour
         target = possibleTargetList[Random.Range(0, poolSize)];
         arrowScript.target = target;
 
-        menuScript.distance = pythagorean(shipLocation, target);
+        menuScript.distance = misc.pythagorean(shipLocation, target);
         menuScript.value = 1f;
     }
 
@@ -53,7 +54,7 @@ public class logicTargetScript : MonoBehaviour
         List<Vector3> distanceList = new List<Vector3>();
         for (int i = 0; i < positionList.Count; i++)
         {
-            float distance = pythagorean(positionList[i], centerPosition);
+            float distance = misc.pythagorean(positionList[i], centerPosition);
             distanceList.Add(new Vector3(positionList[i].x, positionList[i].y, distance));
         }
 
@@ -123,11 +124,5 @@ public class logicTargetScript : MonoBehaviour
             int newLength = endIndex - newStartIndex + 1;
             return binarySearch(list, newStartIndex, endIndex, input);
         }
-    }
-
-
-    private float pythagorean(Vector2 position1, Vector2 position2)
-    {
-        return (Mathf.Sqrt(Mathf.Pow((position1.x - position2.x), 2) + Mathf.Pow((position1.y - position2.y), 2)));
     }
 }

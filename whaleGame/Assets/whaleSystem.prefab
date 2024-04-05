@@ -226,7 +226,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.5176471}
+      maxColor: {r: 1, g: 1, b: 1, a: 0}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4978,6 +4978,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ship: {fileID: 0}
   whalePing: {fileID: 0}
+  menuScript: {fileID: 0}
 --- !u!1 &5149363524692914604
 GameObject:
   m_ObjectHideFlags: 0
@@ -5204,7 +5205,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.5176471}
+      maxColor: {r: 1, g: 1, b: 1, a: 0}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -9956,6 +9957,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ship: {fileID: 0}
   whalePing: {fileID: 0}
+  menuScript: {fileID: 0}
 --- !u!1 &7333133402120590939
 GameObject:
   m_ObjectHideFlags: 0

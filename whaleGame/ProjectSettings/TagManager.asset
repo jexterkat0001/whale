@@ -9,6 +9,7 @@ TagManager:
   - Ship
   - whalePing
   - gameUI
+  - logic
   layers:
   - Default
   - TransparentFX

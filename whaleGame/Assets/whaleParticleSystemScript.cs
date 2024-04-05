@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class whaleParticleSystemScript : MonoBehaviour
 {
-    private List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
-    private List<ParticleSystem.Particle> particles = new List<ParticleSystem.Particle>();
-
     public GameObject ship;
     public ParticleSystem whalePing;
+    public ParticleSystem whaleParticleSystem;
     public menuScript menuScript;
+
+    private List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
+    private List<ParticleSystem.Particle> particles = new List<ParticleSystem.Particle>();
 
     float xOffset;
     float yOffset;
@@ -18,15 +19,22 @@ public class whaleParticleSystemScript : MonoBehaviour
     {
         ship = GameObject.FindWithTag("Ship");
         whalePing = GameObject.FindWithTag("whalePing").GetComponent<ParticleSystem>();
+        whaleParticleSystem = GetComponent<ParticleSystem>();
         menuScript = GameObject.FindWithTag("gameUI").GetComponent<menuScript>();
 
         xOffset = transform.parent.position.x;
         yOffset = transform.parent.position.y;
+
+        if(GameObject.FindWithTag("logic").GetComponent<Misc>().testMode)
+        {
+            var whaleParticleSystemMain = whaleParticleSystem.main;
+            whaleParticleSystemMain.startColor = new Color(255, 255, 255, 255);
+        }
     }
 
     void OnParticleCollision(GameObject other)
     {
-        int shipCollisions = ParticlePhysicsExtensions.GetCollisionEvents(GetComponent<ParticleSystem>(), other, collisionEvents);
+        int shipCollisions = ParticlePhysicsExtensions.GetCollisionEvents(whaleParticleSystem, other, collisionEvents);
         for(int i = 0; i < shipCollisions; i++)
         {
             if(collisionEvents[i].colliderComponent.gameObject.layer == 3)
@@ -38,13 +46,13 @@ public class whaleParticleSystemScript : MonoBehaviour
 
     void OnParticleTrigger()
     {
-        ParticlePhysicsExtensions.GetTriggerParticles(GetComponent<ParticleSystem>(),ParticleSystemTriggerEventType.Enter,particles);
+        ParticlePhysicsExtensions.GetTriggerParticles(whaleParticleSystem, ParticleSystemTriggerEventType.Enter,particles);
         for(int i = 0; i < particles.Count; i++)
         {
             ParticleSystem.Particle particle = particles[i];
             if(particle.remainingLifetime < 19f && particle.startColor.a != 255)
             {
-                particle.startColor = new Color32(255,255,255,255);
+                particle.startColor = new Color(255,255,255,255);
                 particle.remainingLifetime = 40f;
 
                 whalePing.transform.position = new Vector3(particle.position.x+xOffset, particle.position.y+yOffset, particle.position.z - 1);
@@ -56,9 +64,9 @@ public class whaleParticleSystemScript : MonoBehaviour
             }
             particles[i] = particle;
         }
-        ParticlePhysicsExtensions.SetTriggerParticles(GetComponent<ParticleSystem>(),ParticleSystemTriggerEventType.Enter,particles);
+        ParticlePhysicsExtensions.SetTriggerParticles(whaleParticleSystem, ParticleSystemTriggerEventType.Enter,particles);
     
-        ParticlePhysicsExtensions.GetTriggerParticles(GetComponent<ParticleSystem>(),ParticleSystemTriggerEventType.Inside,particles);
+        ParticlePhysicsExtensions.GetTriggerParticles(whaleParticleSystem, ParticleSystemTriggerEventType.Inside,particles);
         for(int i = 0; i < particles.Count; i++)
         {
             ParticleSystem.Particle particle = particles[i];
@@ -68,7 +76,6 @@ public class whaleParticleSystemScript : MonoBehaviour
             }
             particles[i] = particle;
         }
-        ParticlePhysicsExtensions.SetTriggerParticles(GetComponent<ParticleSystem>(),ParticleSystemTriggerEventType.Inside,particles);
-    
+        ParticlePhysicsExtensions.SetTriggerParticles(whaleParticleSystem, ParticleSystemTriggerEventType.Inside,particles);
     }
 }

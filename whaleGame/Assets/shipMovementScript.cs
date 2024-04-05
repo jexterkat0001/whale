@@ -7,6 +7,7 @@ public class shipMovementScript : MonoBehaviour
     public Rigidbody2D boatRigidbody;
     public logicTargetScript logicTargetScript;
     public GameObject dockButton;
+    public Misc misc;
 
     private Collider2D dockTrigger;
 
@@ -33,7 +34,7 @@ public class shipMovementScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(testMode)
+        if(misc.testMode)
         {
             acceleration = 5f;
             maxSpeed = 50f;

@@ -20,20 +20,13 @@ public class whaleSystemGeneratorScript : MonoBehaviour
     [SerializeField]
     private Color color2;
 
-    // Start i  called before the first frame update
-    void Start()
+    public void generateWhaleSystem(Vector2 location)
     {
-        createWhaleSystem(0,0);
-    }
-
-    public void createWhaleSystem(float xOffset, float yOffset)
-    {
-        Instantiate(whaleSystem, new Vector3(transform.position.x + xOffset, transform.position.y + yOffset, transform.position.z), transform.rotation, this.transform);
+        Instantiate(whaleSystem, new Vector3(transform.position.x + location.x, transform.position.y + location.y, transform.position.z), transform.rotation, this.transform);
         Transform whaleTile = transform.GetChild(transform.childCount-1);
 
 
-
-        Mesh[] outerMeshes = createMeshes(xOffset, yOffset, threshold1, threshold2);
+        Mesh[] outerMeshes = createMeshes(location.x, location.y, threshold1, threshold2);
 
         Mesh outerMesh = outerMeshes[0];
         Transform whaleSystemOuter = whaleTile.transform.GetChild(0);
@@ -47,8 +40,7 @@ public class whaleSystemGeneratorScript : MonoBehaviour
         whaleSystemOuter.GetComponent<MeshRenderer>().material.color = color1;
 
 
-
-        Mesh[] innerMeshes = createMeshes(xOffset, yOffset, threshold2, 1f);
+        Mesh[] innerMeshes = createMeshes(location.x, location.y, threshold2, 1f);
 
         Mesh innerMesh = innerMeshes[0];
         Transform whaleSystemInner = whaleTile.transform.GetChild(1);
@@ -60,7 +52,6 @@ public class whaleSystemGeneratorScript : MonoBehaviour
         Mesh innerOverlayMesh = innerMeshes[1];
         whaleSystemInner.GetComponent<MeshFilter>().mesh = innerOverlayMesh;
         whaleSystemInner.GetComponent<MeshRenderer>().material.color = color2;
-        
     }
 
     Mesh[] createMeshes(float xOffset, float yOffset, float lowerThreshold, float upperThreshold)
@@ -116,5 +107,4 @@ public class whaleSystemGeneratorScript : MonoBehaviour
 
         return new Mesh[] { mesh, overlayMesh };
     }
-    
 }
