@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class logicTargetScript : MonoBehaviour
 {
     public islandGeneratorScript islandGeneratorScript;
@@ -12,42 +11,34 @@ public class logicTargetScript : MonoBehaviour
     public Misc misc;
 
     private List<Vector2> islandLocationList;
-    private Vector2 target;
+    private Vector2 target = Vector2.zero;
     private Vector2 previousTarget;
     private int poolSize;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-    bool e = true;
-    // Update is called once per frame
-    void Update()
-    {
-        if (e)
-        {
-            e = false;
-            getNewTarget();
-            
-        }
-    }
-
-    [ContextMenu("getNewTarget")]
-    public void getNewTarget()
+    [ContextMenu("getTargetChoices")]
+    public GameObject[] getTargetChoices()
     {
         Vector2 shipLocation = new Vector2(ship.transform.position.x, ship.transform.position.y);
         int shipUpgrade = ship.GetComponent<shipUpgradeScript>().ship;
         List<Vector2> possibleTargetList = getClosestPositions(islandGeneratorScript.islandRings[shipUpgrade], shipLocation);
-        previousTarget = target;
-        target = possibleTargetList[Random.Range(0, poolSize)];
-        arrowScript.target = target;
 
-        menuScript.distance = misc.pythagorean(shipLocation, target);
-        menuScript.value = 1f;
+        GameObject[] targetChoices = new GameObject[3];
+        for (int i = 0; i < 3; i++)
+        {
+            int index = Random.Range(0, possibleTargetList.Count - 1);
+            targetChoices[i] = islandGeneratorScript.getIslandGameObject(possibleTargetList[index]);
+            possibleTargetList.RemoveAt(index);
+        }
+
+        return targetChoices;
     }
 
+    public void setTarget(Vector2 targetChoice)
+    {
+        previousTarget = target;
+        target = targetChoice;
+        arrowScript.target = target;
+    }
 
     private List<Vector2> getClosestPositions(List<Vector2> positionList, Vector2 centerPosition)
     {
@@ -58,9 +49,7 @@ public class logicTargetScript : MonoBehaviour
             distanceList.Add(new Vector3(positionList[i].x, positionList[i].y, distance));
         }
 
-
         List<Vector3> sortedList = binarySort(distanceList);
-
 
         List<Vector2> finalList = new List<Vector2>();
         if(sortedList.Count < 10)
@@ -87,19 +76,14 @@ public class logicTargetScript : MonoBehaviour
     {
         List<Vector3> sortedList = new List<Vector3>();
 
-
         for (int i = 0; i < unsortedList.Count; i++)
         {
             int insertionIndex = binarySearch(sortedList, 0, sortedList.Count - 1, unsortedList[i]);
             sortedList.Insert(insertionIndex, unsortedList[i]);
         }
 
-
         return sortedList;
     }
-
-
-
 
     private int binarySearch(List<Vector3> list, int startIndex, int endIndex, Vector3 input)
     {
@@ -108,7 +92,6 @@ public class logicTargetScript : MonoBehaviour
         {
             return startIndex;
         }
-
 
         int checkIndex = startIndex + Mathf.CeilToInt(length / 2);
 

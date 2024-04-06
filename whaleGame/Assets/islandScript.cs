@@ -6,7 +6,7 @@ public class islandScript : MonoBehaviour
 {
     public List<GameObject> islands;
 
-    private int islandType;
+    public int islandType;
 
     // Start is called before the first frame update
     void Start()

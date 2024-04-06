@@ -22,14 +22,6 @@ public class logicLoadingScript : MonoBehaviour
         islandList = islandGeneratorScript.islandList;
         nearestIsland = islandGeneratorScript.gameObject.transform.GetChild(0).gameObject;
 
-        if(misc.testMode)
-        {
-            foreach (GameObject island in islandList)
-            {
-                island.GetComponent<islandScript>().load();
-            }
-        }
-
         StartCoroutine(loadUpdate());
     }
 
@@ -37,10 +29,7 @@ public class logicLoadingScript : MonoBehaviour
     {
         for (;;)
         {
-            if(!misc.testMode)
-            {
-                updateIslands();
-            }
+            updateIslands();
             updateWhaleSystems();
             yield return new WaitForSeconds(loadUpdateWaitTime);
         }
@@ -48,11 +37,11 @@ public class logicLoadingScript : MonoBehaviour
 
     private void updateIslands()
     {
-        float previousLowestDistance = pythagorean(nearestIsland, ship);
+        float previousLowestDistance = misc.pythagorean(nearestIsland, ship);
         for (int i = 0; i < islandList.Count; i++)
         {
             GameObject newNearestIsland = nearestIsland;
-            if (pythagorean(islandList[i], ship) < previousLowestDistance)
+            if (misc.pythagorean(islandList[i], ship) < previousLowestDistance)
             {
                 newNearestIsland = islandList[i];
             }
@@ -111,11 +100,6 @@ public class logicLoadingScript : MonoBehaviour
                 whaleSystemGeneratorScript.generateWhaleSystem(requiredWhaleSystemPositions[i]);
             }
         }
-    }
-
-    private float pythagorean(GameObject go1, GameObject go2)
-    {
-        return (Mathf.Sqrt(Mathf.Pow((go1.transform.position.x - go2.transform.position.x), 2) + Mathf.Pow((go1.transform.position.y - go2.transform.position.y), 2)));
     }
 }
 

@@ -22,8 +22,23 @@ public class islandGeneratorScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        islandList.Add(transform.GetChild(0).gameObject);
+        islandRings[0].Add(Vector2.zero);
         transform.GetChild(0).GetComponent<islandScript>().load();
         spawnIslands();
+        Debug.Log(islandRings[0].Count);
+    }
+
+    public GameObject getIslandGameObject(Vector2 position)
+    {
+        for (int i = 0; i < islandList.Count; i++)
+        {
+            if (position == new Vector2(islandList[i].transform.position.x, islandList[i].transform.position.y))
+            {
+                return islandList[i];
+            }
+        }
+        return null;
     }
 
     private void spawnIslands()

@@ -59,14 +59,12 @@ public class shipMovementScript : MonoBehaviour
         if (Time.time > 0.5f)
         {
             canDock = true;
-            dockButton.SetActive(true);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         canDock = false;
-        dockButton.SetActive(false);
     }
 
     public void dock()

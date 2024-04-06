@@ -11,6 +11,11 @@ public class Misc : MonoBehaviour
         return (Mathf.Sqrt(Mathf.Pow((position1.x - position2.x), 2) + Mathf.Pow((position1.y - position2.y), 2)));
     }
 
+    public float pythagorean(GameObject go1, GameObject go2)
+    {
+        return (Mathf.Sqrt(Mathf.Pow((go1.transform.position.x - go2.transform.position.x), 2) + Mathf.Pow((go1.transform.position.y - go2.transform.position.y), 2)));
+    }
+
     public string getName()
     {
         string name = islandNameList[Random.Range(0, islandNameList.Count - 1)];
