@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class shipMovementScript : MonoBehaviour
+public class shipScript : MonoBehaviour
 {
     public Rigidbody2D boatRigidbody;
     public logicTargetScript logicTargetScript;
@@ -25,11 +25,18 @@ public class shipMovementScript : MonoBehaviour
     private float rotationSpeed = 0;
     [SerializeField]
     private float rotationalDeceleration;
-    [SerializeField]
-    private bool testMode;
 
     public bool docked;
     public bool canDock;
+
+    public Sprite[] shipSprites;
+    public int currentShipUpgrade = 0;
+    private Vector2[] shipColliderSizes = { new Vector2(1f, 0.1f), new Vector2(1.4f, 0.2f), new Vector2(2f, 0.25f), new Vector2(2.8f, 0.35f) };
+    private float[] accelerations = { 0.5f, 0.5f, 0.5f, 0.5f };
+    private float[] maxSpeeds = { 2f, 2.8f, 4f, 5.6f };
+    private float[] rotationalAccelerations = { 0.02f, 0.02f, 0.02f, 0.02f };
+    private float[] maxRotationSpeeds = { 0.05f, 0.04f, 0.03f, 0.02f };
+    private float[] whaleDetectorSizes = { 4f, 4.8f, 5.8f, 7f };
 
     // Start is called before the first frame update
     void Start()
@@ -59,12 +66,14 @@ public class shipMovementScript : MonoBehaviour
         if (Time.time > 0.5f)
         {
             canDock = true;
+            dockButton.SetActive(true);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         canDock = false;
+        dockButton.SetActive(false);
     }
 
     public void dock()
@@ -81,6 +90,19 @@ public class shipMovementScript : MonoBehaviour
     {
         docked = false;
         canDock = true;
+    }
+
+    [ContextMenu("upgrade ship")]
+    public void upgradeShip()
+    {
+        currentShipUpgrade++;
+        GetComponent<SpriteRenderer>().sprite = shipSprites[currentShipUpgrade];
+        GetComponent<BoxCollider2D>().size = shipColliderSizes[currentShipUpgrade];
+        acceleration = accelerations[currentShipUpgrade];
+        maxSpeed = maxSpeeds[currentShipUpgrade];
+        rotationalAcceleration = rotationalAccelerations[currentShipUpgrade];
+        maxRotationSpeed = maxRotationSpeeds[currentShipUpgrade];
+        transform.GetChild(0).GetComponent<CircleCollider2D>().radius = whaleDetectorSizes[currentShipUpgrade];
     }
 
     private void shipMovement()

@@ -25,11 +25,6 @@ public class whaleParticleSystemScript : MonoBehaviour
         xOffset = transform.parent.position.x;
         yOffset = transform.parent.position.y;
 
-        if(GameObject.FindWithTag("logic").GetComponent<Misc>().testMode)
-        {
-            var whaleParticleSystemMain = whaleParticleSystem.main;
-            whaleParticleSystemMain.startColor = new Color(255, 255, 255, 255);
-        }
     }
 
     void OnParticleCollision(GameObject other)
@@ -53,7 +48,7 @@ public class whaleParticleSystemScript : MonoBehaviour
             if(particle.remainingLifetime < 19f && particle.startColor.a != 255)
             {
                 particle.startColor = new Color(255,255,255,255);
-                particle.remainingLifetime = 40f;
+                particle.remainingLifetime = 19f;
 
                 whalePing.transform.position = new Vector3(particle.position.x+xOffset, particle.position.y+yOffset, particle.position.z - 1);
                 var whalePingMain = whalePing.main;

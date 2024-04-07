@@ -19,7 +19,7 @@ public class logicTargetScript : MonoBehaviour
     public GameObject[] getTargetChoices()
     {
         Vector2 shipLocation = new Vector2(ship.transform.position.x, ship.transform.position.y);
-        int shipUpgrade = ship.GetComponent<shipUpgradeScript>().ship;
+        int shipUpgrade = ship.GetComponent<shipScript>().currentShipUpgrade;
         List<Vector2> possibleTargetList = getClosestPositions(islandGeneratorScript.islandRings[shipUpgrade], shipLocation);
 
         GameObject[] targetChoices = new GameObject[3];
