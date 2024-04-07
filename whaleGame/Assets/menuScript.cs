@@ -8,9 +8,10 @@ public class menuScript : MonoBehaviour
 {
     public Sprite[] islandImages;
     public Misc misc;
+    public logicTutorialScript logicTutorialScript;
 
 	public TextMeshProUGUI moneyText;
-    private float money = 100000;
+    private int money = 0;
 
     public TextMeshProUGUI dockButtonText;
     public shipScript shipScript;
@@ -21,6 +22,7 @@ public class menuScript : MonoBehaviour
     public GameObject targetTabs;
 
     //Earnings
+    public GameObject earningsButton;
     [SerializeField] private int whaleHitPenalty;
     public int cargoCapacity = 100;
     public int whalesHit = 0;
@@ -51,11 +53,15 @@ public class menuScript : MonoBehaviour
         islandMenu.SetActive(false);
         menuButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Open Menu";
         selectTargetTab.SetActive(true);
-        earningsButtonPressed();
+        selectTargetButtonPressed();
     }
 
     public void delivery()
     {
+        logicTutorialScript.nextTutorialStage();
+
+        earningsButton.SetActive(true);
+
         GameObject islandImage1 = earningsTab.transform.GetChild(0).GetChild(0).gameObject;
         GameObject island1 = previousIsland;
         islandImage1.GetComponent<Image>().sprite = islandImages[island1.GetComponent<islandScript>().islandType];
@@ -68,7 +74,7 @@ public class menuScript : MonoBehaviour
 
         earningsTab.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{island1.name} to {island2.name}";
 
-        float moneyEarned = Mathf.Clamp(cargoCapacity * distances[chosenIsland] * values[chosenIsland] - (whalesHit*whaleHitPenalty), 0f, 99999f);
+        int moneyEarned = Mathf.RoundToInt(Mathf.Clamp(cargoCapacity * distances[chosenIsland] * values[chosenIsland] - (whalesHit*whaleHitPenalty), 0f, 99999f));
         money += moneyEarned;
         moneyText.text = money + "$";
         earningsTab.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = $"${cargoCapacity}\nx{distances[chosenIsland]}\nx{values[chosenIsland]}\n\n\n\n${moneyEarned}";
@@ -85,9 +91,10 @@ public class menuScript : MonoBehaviour
 
     public void upgradeShipButtonPressed()
     {
-        if(money > upgradePrices[shipScript.currentShipUpgrade])
+        if(money > upgradePrices[shipScript.currentShipUpgrade] || shipScript.currentShipUpgrade == 0)
         {
             money -= upgradePrices[shipScript.currentShipUpgrade];
+            moneyText.text = money + "$";
             shipScript.upgradeShip();
             cargoCapacity = cargoCapacities[shipScript.currentShipUpgrade];
 
@@ -95,12 +102,14 @@ public class menuScript : MonoBehaviour
             {
                 shipUpgradeTab.transform.GetChild(i).gameObject.SetActive(i == shipScript.currentShipUpgrade);
             }
+
+            selectTargetScreen();
         }
     }
 
-    private void selectTargetScreen()
+    public void selectTargetScreen(bool getClosestIslands = false)
     {
-        islandChoices = logicTargetScript.getTargetChoices();
+        islandChoices = logicTargetScript.getTargetChoices(getClosestIslands);
         for (int i = 0; i < 3; i++)
         {
             GameObject islandPanel = selectTargetTab.transform.GetChild(i).gameObject;
@@ -110,8 +119,12 @@ public class menuScript : MonoBehaviour
             islandPanel.transform.GetChild(0).rotation = getIslandImageRotation(islandChoice);
 
             distances[i] = Mathf.Round(misc.pythagorean(new Vector2(ship.transform.position.x, ship.transform.position.y), new Vector2(islandChoice.transform.position.x, islandChoice.transform.position.y))) / 100;
-            values[i] = Random.Range(1f, 1f + (distances[i] * distanceValueMultiplier));
+            values[i] = Mathf.Round(Random.Range(1f, 1f + (distances[i] * distanceValueMultiplier)) * 100) / 100;
             islandPanel.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{islandChoice.name} \nDistance: {distances[i]} km\nValue: {Mathf.Round(values[i] * distances[i] * 100) / 100}";
+        }
+        if(!logicTutorialScript.canSelectTarget)
+        {
+            islandButtonPressed();
         }
     }
 
@@ -152,7 +165,6 @@ public class menuScript : MonoBehaviour
         {
             islandMenu.SetActive(true);
             menuButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Close Menu";
-            selectTargetScreen();
         }
     }
 
@@ -186,7 +198,7 @@ public class menuScript : MonoBehaviour
         GameObject islandChoice = islandChoices[chosenIsland];
         targetTab.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = islandImages[islandChoice.GetComponent<islandScript>().islandType];
         targetTab.transform.GetChild(0).GetChild(0).rotation = getIslandImageRotation(islandChoice);
-        targetTab.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{islandChoice.name} \nDistance: {distances[chosenIsland]} km\nValue Multiplier: x{values[chosenIsland]}";
+        targetTab.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{islandChoice.name} \nDistance: {distances[chosenIsland]} km\nValue: {Mathf.Round(values[chosenIsland] * distances[chosenIsland] * 100) / 100}";
 
         logicTargetScript.setTarget(new Vector2(targetIsland.transform.position.x, targetIsland.transform.position.y));
 

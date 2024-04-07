@@ -16,7 +16,7 @@ public class logicTargetScript : MonoBehaviour
     private int poolSize;
 
     [ContextMenu("getTargetChoices")]
-    public GameObject[] getTargetChoices()
+    public GameObject[] getTargetChoices(bool getClosestIslands = false)
     {
         Vector2 shipLocation = new Vector2(ship.transform.position.x, ship.transform.position.y);
         int shipUpgrade = ship.GetComponent<shipScript>().currentShipUpgrade;
@@ -25,7 +25,15 @@ public class logicTargetScript : MonoBehaviour
         GameObject[] targetChoices = new GameObject[3];
         for (int i = 0; i < 3; i++)
         {
-            int index = Random.Range(0, possibleTargetList.Count - 1);
+            int index;
+            if(getClosestIslands)
+            {
+                index = 0;
+            }
+            else
+            {
+                index = Random.Range(0, possibleTargetList.Count - 1);
+            }
             targetChoices[i] = islandGeneratorScript.getIslandGameObject(possibleTargetList[index]);
             possibleTargetList.RemoveAt(index);
         }
