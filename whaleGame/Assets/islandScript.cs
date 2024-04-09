@@ -11,7 +11,7 @@ public class islandScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        islandType = Random.Range(0, 10);
+        islandType = Random.Range(0, islands.Count-1);
         name = GameObject.FindWithTag("logic").GetComponent<Misc>().getName();
     }
 
