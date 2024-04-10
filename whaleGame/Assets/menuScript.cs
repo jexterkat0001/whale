@@ -68,7 +68,7 @@ public class menuScript : MonoBehaviour
         islandImage1.transform.rotation = getIslandImageRotation(island1);
 
         GameObject islandImage2 = earningsTab.transform.GetChild(1).GetChild(0).gameObject;
-        GameObject island2 = islandChoices[chosenIsland];
+        GameObject island2 = targetIsland;
         islandImage2.GetComponent<Image>().sprite = islandImages[island2.GetComponent<islandScript>().islandType];
         islandImage2.transform.rotation = getIslandImageRotation(island2);
 
@@ -87,6 +87,7 @@ public class menuScript : MonoBehaviour
         selectTargetTab.SetActive(true);
         targetTab.SetActive(false);
         selectTargetButtonText.text = "Select Target";
+        targetIsland = null;
     }
 
     public void upgradeShipButtonPressed()

@@ -8,7 +8,7 @@ public class islandGeneratorScript : MonoBehaviour
     public Misc misc;
 
     [SerializeField]
-    private int[] thresholds;
+    public int[] thresholds;
     [SerializeField]
     private float spawnChance;
     [SerializeField]

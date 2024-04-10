@@ -68,7 +68,7 @@ public class Misc : MonoBehaviour
         "Key Way",
 
         "Canary Bar",
-        "Finger",
+
         "Little Sheep",
         "Skagg",
         "Goodluck Sedge",
@@ -140,8 +140,7 @@ public class Misc : MonoBehaviour
         "The Cube",
         "Island of Unity",
         "Octahedron",
-        "Codeland",
-        "Purpleland",
+
         "Legoland",
         "Calculos",
         "Kragle",
@@ -201,16 +200,13 @@ public class Misc : MonoBehaviour
         "Fork Watch",
         "Beer Quarter",
         "Ice Pigeon",
-        "Vague Undertake",
-        "Copper Ferry",
-        "Tropical Trial",
+
         "Peanut Subway",
         "Vegetation District",
-        "Dairy Maze",
+
         "Hens’ Exile",
         "Grandmother Asylum",
         "The Path",
-        "Letterhead",
 
         "Boltzmann Island",
         "Mike’s House",
@@ -238,7 +234,6 @@ public class Misc : MonoBehaviour
         "Box Island",
         "The Good Island",
         "Isle of the Mohawks",
-
 
         "Weepecket Island",
         "Powder Isle",

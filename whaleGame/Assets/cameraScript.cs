@@ -5,18 +5,22 @@ using UnityEngine;
 public class cameraScript : MonoBehaviour
 {
     public GameObject ship;
+    public Misc misc;
 
     [SerializeField]
     private float scrollAmount;
     [SerializeField]
     private float maxZoomIn;
     [SerializeField]
-    private float maxZoomOut;
+    public float maxZoomOut;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        if(misc.testMode)
+        {
+            maxZoomOut = 500f;
+        }
     }
 
     // Update is called once per frame

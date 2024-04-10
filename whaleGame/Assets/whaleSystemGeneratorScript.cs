@@ -6,6 +6,7 @@ public class whaleSystemGeneratorScript : MonoBehaviour
 {
     public GameObject whaleSystem;
     public Collider2D whaleDetector;
+    public Collider2D whaleSpotter;
 
     private int width = 100;
     private int height = 100;
@@ -34,6 +35,7 @@ public class whaleSystemGeneratorScript : MonoBehaviour
         whaleSystemOuterShape.mesh = outerMesh;
         var whaleSystemOuterTrigger = whaleSystemOuter.GetComponent<ParticleSystem>().trigger;
         whaleSystemOuterTrigger.AddCollider(whaleDetector);
+        whaleSystemOuterTrigger.AddCollider(whaleSpotter);
 
         Mesh outerOverlayMesh = outerMeshes[1];
         whaleSystemOuter.GetComponent<MeshFilter>().mesh = outerOverlayMesh;
@@ -48,6 +50,7 @@ public class whaleSystemGeneratorScript : MonoBehaviour
         whaleSystemInnerShape.mesh = innerMesh;
         var whaleSystemInnerTrigger = whaleSystemInner.GetComponent<ParticleSystem>().trigger;
         whaleSystemInnerTrigger.AddCollider(whaleDetector);
+        whaleSystemInnerTrigger.AddCollider(whaleSpotter);
 
         Mesh innerOverlayMesh = innerMeshes[1];
         whaleSystemInner.GetComponent<MeshFilter>().mesh = innerOverlayMesh;
