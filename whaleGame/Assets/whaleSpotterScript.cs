@@ -4,18 +4,27 @@ using UnityEngine;
 
 public class whaleSpotterScript : MonoBehaviour
 {
-    [SerializeField] private int lifetime;
+    [SerializeField] private float lifetime;
     public SpriteRenderer spriteRenderer;
 
-    IEnumerator spawn(float x, float y)
+    private Vector3 position;
+
+    public void spawnAt(Vector3 particlePosition)
     {
-        transform.position = new Vector3(x, y, -0.75f);
-        gameObject.SetActive(true);
-        for(int i = 0; i < lifetime * 25; i++)
+        position = particlePosition;
+        StartCoroutine(spawn());
+    }
+    IEnumerator spawn()
+    {
+        transform.position = position;
+        transform.GetComponent<CircleCollider2D>().enabled = true;
+        for (int i = 0; i < lifetime * 25; i++)
         {
-            spriteRenderer.color = new Color(1f, 1f, 1f, 0.2f * Mathf.Cos(i * Mathf.PI / 50 / lifetime));
+            spriteRenderer.color = new Color(0f, 1f, 0f, 0.1f * Mathf.Cos(i * Mathf.PI / 50 / lifetime));
             yield return new WaitForSeconds(0.04f);
         }
-        gameObject.SetActive(false);
+        spriteRenderer.color = new Color(0f, 1f, 0f, 0f);
+        transform.GetComponent<CircleCollider2D>().enabled = false;
     }
 }
+

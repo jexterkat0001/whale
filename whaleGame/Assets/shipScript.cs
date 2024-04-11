@@ -17,6 +17,11 @@ public class shipScript : MonoBehaviour
     public Transform slider;
     public TextMeshProUGUI coordinateText;
 
+    public bool canUseSpotter = false;
+    public Transform spotterSlider;
+    private bool canUseOverlay = false;
+    public bool overlayEnabled = false;
+
     [SerializeField]
     private float acceleration;
     [SerializeField]
@@ -56,6 +61,8 @@ public class shipScript : MonoBehaviour
             deceleration = 10f;
             rotationalAcceleration = 0.5f;
             rotationalDeceleration = 0.9f;
+            canUseSpotter = true;
+            canUseOverlay = true;
         }
         StartCoroutine(ringTextUpdate());
     }
@@ -66,6 +73,10 @@ public class shipScript : MonoBehaviour
         if(!docked)
         {
             shipMovement();
+        }
+        if (canUseOverlay && Input.GetKeyDown(KeyCode.Q))
+        {
+            overlayEnabled = !overlayEnabled;
         }
     }
 
@@ -125,6 +136,7 @@ public class shipScript : MonoBehaviour
         docked = true;
         canDock = false;
         slider.gameObject.SetActive(false);
+        spotterSlider.gameObject.SetActive(false);
     }
 
     public void undock()
@@ -132,6 +144,10 @@ public class shipScript : MonoBehaviour
         docked = false;
         canDock = true;
         slider.gameObject.SetActive(true);
+        if (canUseSpotter)
+        {
+            spotterSlider.gameObject.SetActive(true);
+        }
     }
 
     [ContextMenu("upgrade ship")]
@@ -147,6 +163,14 @@ public class shipScript : MonoBehaviour
         transform.GetChild(0).GetComponent<CircleCollider2D>().radius = whaleDetectorSizes[currentShipUpgrade];
         slider.GetComponent<Slider>().maxValue = maxSpeeds[currentShipUpgrade];
         cameraScript.maxZoomOut = maxZoomOuts[currentShipUpgrade];
+        if(currentShipUpgrade == 1)
+        {
+            canUseSpotter = true;
+        }
+        else if(currentShipUpgrade == 2)
+        {
+            canUseOverlay = true;
+        }
     }
 
     private void shipMovement()

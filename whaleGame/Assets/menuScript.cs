@@ -21,6 +21,8 @@ public class menuScript : MonoBehaviour
     public GameObject shipUpgradeTab;
     public GameObject targetTabs;
 
+    public GameObject distanceText;
+
     //Earnings
     public GameObject earningsButton;
     [SerializeField] private int whaleHitPenalty;
@@ -38,6 +40,7 @@ public class menuScript : MonoBehaviour
     public GameObject targetTab;
     public GameObject ship;
 
+    private bool reachedTarget = true;
     public GameObject targetIsland;
     private GameObject previousIsland;
     private int chosenIsland;
@@ -54,7 +57,26 @@ public class menuScript : MonoBehaviour
         menuButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Open Menu";
         selectTargetTab.SetActive(true);
         selectTargetButtonPressed();
+        StartCoroutine(setDistanceText());
     }
+
+    IEnumerator setDistanceText()
+    {
+        for (; ; )
+        {
+            if (reachedTarget)
+            {
+                distanceText.SetActive(false);
+            }
+            else
+            {
+                distanceText.SetActive(true);
+                distanceText.GetComponent<TextMeshProUGUI>().text = $"{Mathf.Round(misc.pythagorean(new Vector2(ship.transform.position.x, ship.transform.position.y), new Vector2(targetIsland.transform.position.x, targetIsland.transform.position.y))) / 100} km from target";
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
 
     public void delivery()
     {
@@ -87,12 +109,12 @@ public class menuScript : MonoBehaviour
         selectTargetTab.SetActive(true);
         targetTab.SetActive(false);
         selectTargetButtonText.text = "Select Target";
-        targetIsland = null;
+        reachedTarget = true;
     }
 
     public void upgradeShipButtonPressed()
     {
-        if(money > upgradePrices[shipScript.currentShipUpgrade] || shipScript.currentShipUpgrade == 0)
+        if (money > upgradePrices[shipScript.currentShipUpgrade] || (shipScript.currentShipUpgrade == 0 && logicTutorialScript.stage > -1))
         {
             money -= upgradePrices[shipScript.currentShipUpgrade];
             moneyText.text = money + "$";
@@ -138,22 +160,22 @@ public class menuScript : MonoBehaviour
             menuButton.SetActive(true);
             menuButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Close Menu";
             dockButtonText.text = "Leave Port";
-            
-            if(new Vector2(ship.transform.position.x, ship.transform.position.y) == new Vector2(targetIsland.transform.position.x, targetIsland.transform.position.y))
+
+            if (new Vector2(ship.transform.position.x, ship.transform.position.y) == new Vector2(targetIsland.transform.position.x, targetIsland.transform.position.y) && previousIsland != null && !reachedTarget)
             {
                 earningsButtonPressed();
                 delivery();
             }
         }
-        else if(shipScript.docked)
+        else if (shipScript.docked)
         {
             shipScript.undock();
             islandMenu.SetActive(false);
             menuButton.SetActive(false);
             dockButtonText.text = "Enter Port";
-
         }
     }
+
 
     public void menuButtonPressed()
     {
@@ -195,6 +217,7 @@ public class menuScript : MonoBehaviour
         else if (Input.mousePosition.x < (Screen.width / 2) + (375 * Screen.width / 3840)) { chosenIsland = 1; }
         else { chosenIsland = 2; }
         targetIsland = islandChoices[chosenIsland];
+        reachedTarget = false;
 
         GameObject islandChoice = islandChoices[chosenIsland];
         targetTab.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = islandImages[islandChoice.GetComponent<islandScript>().islandType];

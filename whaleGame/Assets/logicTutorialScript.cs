@@ -25,9 +25,9 @@ public class logicTutorialScript : MonoBehaviour
     };
 
     [ContextMenu("next")]
-    public void nextTutorialStage()
+    public void nextTutorialStage(bool ahsgdhjasd = false)
     {
-        if (stage == 3) { return; }
+        if (stage == 3 || (stage == -1 && !ahsgdhjasd)) { return; }
         stage++;
         tutorialScreen.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = tutorialText[stage];
         if (stage == 0)
@@ -35,15 +35,15 @@ public class logicTutorialScript : MonoBehaviour
             menuScript.selectTargetScreen(true);
             canSelectTarget = false;
         }
-        if(stage == 1)
+        if (stage == 1)
         {
             canSelectTarget = true;
         }
-        if(stage == 2)
+        if (stage == 2)
         {
             upgradeShipButton.SetActive(true);
         }
-        if(stage == 3)
+        if (stage == 3)
         {
             tutorialOkButton.SetActive(true);
         }
@@ -51,7 +51,7 @@ public class logicTutorialScript : MonoBehaviour
 
     public void yes()
     {
-        nextTutorialStage();
+        nextTutorialStage(true);
         upgradeShipButton.SetActive(false);
         tutorialYesButton.SetActive(false);
         tutorialNoButton.SetActive(false);

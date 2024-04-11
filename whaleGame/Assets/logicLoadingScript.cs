@@ -15,21 +15,34 @@ public class logicLoadingScript : MonoBehaviour
     private Vector2 cornerPosition;
 
     [SerializeField] private float loadUpdateWaitTime;
+    [SerializeField] private bool loadAll;
 
     // Start is called before the first frame update
     void Start()
     {
-        islandList = islandGeneratorScript.islandList;
-        nearestIsland = islandGeneratorScript.gameObject.transform.GetChild(0).gameObject;
-
         StartCoroutine(loadUpdate());
     }
 
     IEnumerator loadUpdate()
     {
+        yield return new WaitForSeconds(0.1f);
+        islandList = islandGeneratorScript.islandList;
+        nearestIsland = islandGeneratorScript.gameObject.transform.GetChild(0).gameObject;
+
+        if (loadAll)
+        {
+            for (int i = 0; i < islandList.Count; i++)
+            {
+                islandList[i].GetComponent<islandScript>().load();
+            }
+        }
+        
         for (;;)
         {
-            updateIslands();
+            if (!loadAll)
+            {
+                updateIslands();
+            }
             updateWhaleSystems();
             yield return new WaitForSeconds(loadUpdateWaitTime);
         }

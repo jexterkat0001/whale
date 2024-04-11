@@ -5,9 +5,11 @@ using UnityEngine;
 public class whaleParticleSystemScript : MonoBehaviour
 {
     public GameObject ship;
+    public shipScript shipScript;
     public ParticleSystem whalePing;
     public ParticleSystem whaleParticleSystem;
     public menuScript menuScript;
+    public Misc misc;
 
     private List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
     private List<ParticleSystem.Particle> particles = new List<ParticleSystem.Particle>();
@@ -18,13 +20,25 @@ public class whaleParticleSystemScript : MonoBehaviour
     void Start()
     {
         ship = GameObject.FindWithTag("Ship");
+        shipScript = ship.GetComponent<shipScript>();
         whalePing = GameObject.FindWithTag("whalePing").GetComponent<ParticleSystem>();
         whaleParticleSystem = GetComponent<ParticleSystem>();
         menuScript = GameObject.FindWithTag("gameUI").GetComponent<menuScript>();
 
         xOffset = transform.parent.position.x;
         yOffset = transform.parent.position.y;
+    }
 
+    private void Update()
+    {
+        if (shipScript.overlayEnabled)
+        {
+            transform.GetComponent<MeshRenderer>().enabled = true;
+        }
+        else
+        {
+            transform.GetComponent<MeshRenderer>().enabled = false;
+        }
     }
 
     void OnParticleCollision(GameObject other)
