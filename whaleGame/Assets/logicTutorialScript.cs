@@ -19,10 +19,17 @@ public class logicTutorialScript : MonoBehaviour
     private string[] tutorialText =
     {
         "Welcome to whale game. In this game, you sail your ship to deliver cargo between various islands. Click \"Leave Port\" to leave port. The ship is controlled with WASD keys. Sail toward your target island, indicated by the arrow. Be careful not to hit the whales who you share the ocean with! They are endangered, hitting them will get you a money penalty. Once you reach the target, click \"Enter Port\"  to enter port.",
-        "Great job on your first delivery! I hope you didn't hit any whales...       On your next delivery, you get to pick your target! Click \"Select Target\" to open the selection tab. Farther islands are more likely to have higher values, but carry greater risk of hitting whales. Choose wisely.",
-        "You should hopefully have enough money to buy a better ship. If not, that's ok. You will now be in debt. Click \"Ship Upgrade\" and buy the Big Ship. Larger ships are faster and can carry more cargo, but are also more likely to hit whales. Do speed wisely. This ship comes with the ability to launch a whale spotter. How does this technology work? Nobody knows.",
-        "This is the end of the tutorial. Just remember that the whales' lives are important. Never let the corrupting hand of capitalism get to you. Ok?"
+
+
+        "Great job on your first delivery! I hope you didn't hit any whales...       On your next delivery, you get to pick your destination! Click \"Select Target\" to open the selection tab. Farther islands are more likely to have higher values, but carry greater risk of hitting whales. Choose wisely.",
+
+
+        "You should hopefully have enough money to buy a better ship. If not, that's ok. You will now be in debt. Click \"Upgrade Ship\" and buy the Big Ship. Larger ships are faster and can carry more cargo, but their speed makes them more likely to hit whales. Do speed wisely. This ship comes with the ability to launch a whale spotter by pressing E. How does this technology work? Nobody knows.",
+
+
+        "This is the end of the tutorial. I heard that the next ship upgrade includes a technology that shows you which areas have high whale density. How Exciting! Anyway, keep going and remember that the whales' lives are important. Never let the corrupting hand of capitalism get to you. Ok?"
     };
+
 
     [ContextMenu("next")]
     public void nextTutorialStage(bool ahsgdhjasd = false)
