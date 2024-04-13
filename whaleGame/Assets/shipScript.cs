@@ -45,11 +45,13 @@ public class shipScript : MonoBehaviour
     private Vector2[] shipColliderSizes = { new Vector2(1f, 0.1f), new Vector2(1.4f, 0.2f), new Vector2(2f, 0.25f), new Vector2(2.8f, 0.35f) };
     private float[] accelerations = { 0.5f, 0.5f, 0.5f, 0.5f };
     private float[] maxSpeeds = { 2f, 2.8f, 4f, 5.6f };
-    private float[] rotationalAccelerations = { 0.02f, 0.02f, 0.02f, 0.02f };
-    private float[] maxRotationSpeeds = { 0.05f, 0.04f, 0.03f, 0.02f };
+    private float[] rotationalAccelerations = { 10f, 10f, 10f, 10f };
+    private float[] maxRotationSpeeds = { 20f, 18f, 16f, 15f };
     private float[] whaleDetectorSizes = { 4f, 4.8f, 5.8f, 7f };
     private int[] maxZoomOuts = { 5,6,7,8};
     public cameraScript cameraScript;
+
+    private float startTime;
 
     // Start is called before the first frame update
     void Start()
@@ -65,6 +67,7 @@ public class shipScript : MonoBehaviour
             canUseOverlay = true;
         }
         StartCoroutine(ringTextUpdate());
+        startTime = Time.time;
     }
 
     // Update is called once per frame
@@ -106,7 +109,7 @@ public class shipScript : MonoBehaviour
         }
         else
         {
-            if (Time.time > 0.5f)
+            if (Time.time - startTime > 0.5f)
             {
                 canDock = true;
                 dockButton.SetActive(true);
@@ -247,7 +250,7 @@ public class shipScript : MonoBehaviour
                 rotationSpeed = 0f;
             }
         }
-        transform.Rotate(0f, 0f, rotationSpeed);
+        transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime);
 
         boatRigidbody.velocity = new Vector2(speed * Mathf.Cos(currentAngle * Mathf.PI / 180), speed * Mathf.Sin(currentAngle * Mathf.PI / 180));
     }

@@ -31,7 +31,10 @@ public class spotterSystemScript : MonoBehaviour
                 {
                     transform.position = new Vector3(ship.transform.position.x, ship.transform.position.y, -0.75f);
                     transform.rotation = Quaternion.Euler(-((ship.transform.eulerAngles.z + 360) % 360), 90f, 0f);
+                    var spotterSystemMain = spotterSystem.main;
+                    spotterSystemMain.startSpeed = ship.GetComponent<Rigidbody2D>().velocity.magnitude + 5f;
                     spotterSystem.Emit(1);
+
                     currentSpotterCooldown = maxSpotterCooldown;
                 }
             }

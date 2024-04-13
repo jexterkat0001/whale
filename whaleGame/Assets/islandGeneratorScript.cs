@@ -26,7 +26,6 @@ public class islandGeneratorScript : MonoBehaviour
         islandRings[0].Add(Vector2.zero);
         transform.GetChild(0).GetComponent<islandScript>().load();
         spawnIslands();
-        Debug.Log(islandRings[0].Count);
     }
 
     public GameObject getIslandGameObject(Vector2 position)
